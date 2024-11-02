@@ -1,0 +1,60 @@
+import {
+  CanActivate,
+  ExecutionContext,
+  ForbiddenException,
+  Injectable,
+  RequestTimeoutException,
+} from "@nestjs/common";
+import { Reflector } from "@nestjs/core";
+import { InjectRepository } from "@nestjs/typeorm";
+import {
+  PERMISSION_KEY,
+  REQUEST_USER_KEY,
+} from "@src/app/constants/keys.constants";
+import { User } from "@src/app/modules/user/entities/user.entity";
+
+import { Repository } from "typeorm";
+
+@Injectable()
+export class PermissionGuard implements CanActivate {
+  constructor(
+    private readonly reflector: Reflector,
+
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+  ) {}
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    const requiredPermission = this.reflector.getAllAndOverride(
+      PERMISSION_KEY,
+      [context.getHandler(), context.getClass()],
+    );
+
+    const request = context.switchToHttp().getRequest();
+    const userId = request[REQUEST_USER_KEY]?.sub;
+
+    let userWithPermission: User;
+
+    try {
+      userWithPermission = await this.userRepository
+        .createQueryBuilder("user")
+        .leftJoin("user.permissions", "permission")
+        .where("user.id = :userId", { userId })
+        .andWhere("permission.name = :name", { name: requiredPermission })
+        .getOne();
+
+      console.log(request[REQUEST_USER_KEY]);
+    } catch {
+      throw new RequestTimeoutException("Unable to process", {
+        description: "Please try again later",
+      });
+    }
+
+    if (!userWithPermission?.id) {
+      throw new ForbiddenException(
+        "User does not have the required permission to access this api",
+      );
+    }
+
+    return;
+  }
+}
