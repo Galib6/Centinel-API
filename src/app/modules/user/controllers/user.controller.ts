@@ -9,6 +9,8 @@ import {
   Query,
 } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { Auth } from "@src/app/decorators";
+import { AuthType } from "@src/app/enums/auth-type.enum";
 import { SuccessResponse } from "@src/app/types";
 import { FilterRoleDTO } from "../../acl/dtos";
 import { Role } from "../../acl/entities/role.entity";
@@ -24,8 +26,9 @@ export class UserController {
   constructor(private readonly service: UserService) {}
 
   @Get()
+  @Auth(AuthType.Bearer, AuthType.Permission)
   async findAll(
-    @Query() query: FilterUserDTO,
+    @Query() query: FilterUserDTO
   ): Promise<SuccessResponse | User[]> {
     return this.service.findAllBase(query, { relations: this.RELATIONS });
   }
@@ -33,7 +36,7 @@ export class UserController {
   @Get(":id/available-roles")
   async availableRoles(
     @Param("id") id: string,
-    @Query() query: FilterRoleDTO,
+    @Query() query: FilterRoleDTO
   ): Promise<Role[]> {
     return this.service.availableRoles(id, query);
   }
@@ -56,7 +59,7 @@ export class UserController {
   @Patch(":id")
   async updateOne(
     @Param("id") id: string,
-    @Body() body: UpdateUserDTO,
+    @Body() body: UpdateUserDTO
   ): Promise<User> {
     return this.service.updateUser(id, body, this.RELATIONS);
   }

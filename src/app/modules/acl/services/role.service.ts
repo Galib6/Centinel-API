@@ -1,15 +1,15 @@
-import { RolePermission } from "./../entities/rolePermission.entity";
-import { asyncForEach } from "@src/shared";
-import { AddPermissionsDTO } from "./../dtos/role/addPermissions.dto";
-import { Injectable, BadRequestException } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { BaseService } from "@src/app/base";
-import { Repository, DataSource, In } from "typeorm";
-import { Role } from "../entities/role.entity";
+import { asyncForEach } from "@src/shared";
+import { DataSource, In, Repository } from "typeorm";
 import { FilterPermissionDTO, RemovePermissionsDTO } from "../dtos";
-import { RolePermissionService } from "./rolePermission.service";
-import { PermissionService } from "./permission.service";
 import { Permission } from "../entities/permission.entity";
+import { Role } from "../entities/role.entity";
+import { AddPermissionsDTO } from "./../dtos/role/addPermissions.dto";
+import { RolePermission } from "./../entities/rolePermission.entity";
+import { PermissionService } from "./permission.service";
+import { RolePermissionService } from "./rolePermission.service";
 
 @Injectable()
 export class RoleService extends BaseService<Role> {
@@ -18,14 +18,14 @@ export class RoleService extends BaseService<Role> {
     private readonly _repo: Repository<Role>,
     private readonly dataSource: DataSource,
     private readonly rolePermissionService: RolePermissionService,
-    private readonly permissionService: PermissionService,
+    private readonly permissionService: PermissionService
   ) {
     super(_repo);
   }
 
   async availablePermissions(
     id: string,
-    payload: FilterPermissionDTO,
+    payload: FilterPermissionDTO
   ): Promise<Permission[]> {
     const isExist = await this.isExist({ id });
 
@@ -42,7 +42,7 @@ export class RoleService extends BaseService<Role> {
     if (permissions && permissions.length > 0) {
       permissions.forEach((permission) => {
         const isAlreadyAdded = rolePermissions.find(
-          (rolePermission) => rolePermission.permissionId === permission.id,
+          (rolePermission) => rolePermission.permissionId === permission.id
         );
         permission.isAlreadyAdded = !!isAlreadyAdded;
       });
@@ -53,7 +53,7 @@ export class RoleService extends BaseService<Role> {
 
   async addPermissions(
     id: string,
-    payload: AddPermissionsDTO,
+    payload: AddPermissionsDTO
   ): Promise<Permission[]> {
     const isRoleExist = await this.isExist({ id });
 
@@ -81,7 +81,7 @@ export class RoleService extends BaseService<Role> {
           Object.assign(new RolePermission(), {
             role: isRoleExist.id,
             permission: permissionId,
-          }),
+          })
         );
 
         addedPermissions.push(permissionId);
@@ -111,7 +111,7 @@ export class RoleService extends BaseService<Role> {
 
   async removePermissions(
     id: string,
-    payload: RemovePermissionsDTO,
+    payload: RemovePermissionsDTO
   ): Promise<Permission[]> {
     const isRoleExist = await this.isExist({ id });
 

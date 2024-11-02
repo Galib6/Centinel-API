@@ -1,10 +1,10 @@
 import {
   ArgumentsHost,
   Catch,
-  ExceptionFilter as NestExceptionFilter,
   ForbiddenException,
   HttpException,
   HttpStatus,
+  ExceptionFilter as NestExceptionFilter,
 } from "@nestjs/common";
 
 @Catch()
@@ -39,7 +39,7 @@ export class ExceptionFilter implements NestExceptionFilter {
       if (
         exception?.message &&
         exception.message.includes(
-          "duplicate key value violates unique constraint",
+          "duplicate key value violates unique constraint"
         )
       ) {
         const field = exception.detail.split("Key (")[1].split(")")[0];
