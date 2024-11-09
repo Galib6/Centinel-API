@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { BaseService } from "@src/app/base";
-import { Repository } from "typeorm";
+import { In, Repository } from "typeorm";
 import { RolePermission } from "../entities/rolePermission.entity";
 
 @Injectable()
@@ -14,6 +14,10 @@ export class RolePermissionService extends BaseService<RolePermission> {
   }
 
   public async findRolePermissionByRoles(roles: string[]) {
-    return this.repo.find();
+    return this.repo.find({
+      where: {
+        role: In(roles),
+      },
+    });
   }
 }

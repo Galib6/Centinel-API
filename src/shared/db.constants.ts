@@ -8,6 +8,10 @@ export enum ENUM_TABLE_NAMES {
   USER_ROLES = "user_roles",
   ROLE_PERMISSIONS = "role_permissions",
   AUTH_STATS = "auth_stats",
+
+  POSTS = "posts",
+  TAGS = "tags",
+  POSTS_TAGS = "post_tag",
 }
 
 export enum ENUM_SEQUENCE {

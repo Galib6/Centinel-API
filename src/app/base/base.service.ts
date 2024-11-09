@@ -43,18 +43,18 @@ export abstract class BaseService<T extends BaseEntity>
     entities: T[],
     options?: SaveOptions & {
       reload: false;
-    },
+    }
   ): Promise<T[]> {
     return this.repo.save(entities, options);
   }
 
   async findAllBase(
-    filters: T & {
+    filters: Partial<T> & {
       searchTerm?: string;
       limit?: number;
       page?: number;
     },
-    options?: IFindAllBaseOptions,
+    options?: IFindAllBaseOptions
   ): Promise<SuccessResponse | T[]> {
     const { searchTerm, limit: take, page, ...queryOptions } = filters;
     const skip = (page - 1) * take;
@@ -67,7 +67,7 @@ export abstract class BaseService<T extends BaseEntity>
 
       if (Object.keys(queryOptions).length) {
         SEARCH_TERMS = SEARCH_TERMS.filter(
-          (term) => !term.includes(Object.keys(queryOptions)),
+          (term) => !term.includes(Object.keys(queryOptions))
         );
       }
 
@@ -105,7 +105,7 @@ export abstract class BaseService<T extends BaseEntity>
           page: toNumber(page),
           limit: toNumber(take),
           skip,
-        },
+        }
       );
     } else {
       const relations = this.repo.metadata.relations.map((r) => r.propertyName);
@@ -141,7 +141,7 @@ export abstract class BaseService<T extends BaseEntity>
             page: toNumber(page),
             limit: toNumber(take),
             skip,
-          },
+          }
         );
       }
     }
@@ -182,7 +182,7 @@ export abstract class BaseService<T extends BaseEntity>
   async updateOneBase(
     id: string,
     data: QueryDeepPartialEntity<T>,
-    options?: IFindByIdBaseOptions,
+    options?: IFindByIdBaseOptions
   ): Promise<T> {
     await this.repo.update(id, data);
     return await this.findByIdBase(id, options);
@@ -192,7 +192,7 @@ export abstract class BaseService<T extends BaseEntity>
     await this.repo.delete(id);
     return new SuccessResponse(
       `${this.repo.metadata.name} deleted successfully`,
-      null,
+      null
     );
   }
 
@@ -200,13 +200,13 @@ export abstract class BaseService<T extends BaseEntity>
     await this.repo.softDelete(id);
     return new SuccessResponse(
       `${this.repo.metadata.name} deleted successfully`,
-      null,
+      null
     );
   }
 
   async recoverByIdBase(
     id: string,
-    options?: IFindByIdBaseOptions,
+    options?: IFindByIdBaseOptions
   ): Promise<T> {
     await this.repo.recover({ id } as DeepPartial<T>);
     return await this.findByIdBase(id, options);

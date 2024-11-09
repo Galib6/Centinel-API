@@ -12,6 +12,8 @@ import { HelpersModule } from "./helpers/helpers.module";
 import { ResponseInterceptor } from "./interceptors/response.interceptor";
 import { AuthMiddleware } from "./middlewares";
 import { AuthModule } from "./modules/auth/auth.module";
+import { PostsModule } from "./modules/posts/posts.module";
+import { TagsModule } from "./modules/tags/tags.module";
 import { UserModule } from "./modules/user/user.module";
 
 const MODULES = [
@@ -22,6 +24,8 @@ const MODULES = [
   }),
   AuthModule,
   UserModule,
+  PostsModule,
+  TagsModule,
 ];
 @Module({
   imports: [...MODULES, ConfigsModule, GuardsModule],

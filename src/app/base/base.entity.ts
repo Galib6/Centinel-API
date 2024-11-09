@@ -8,7 +8,7 @@ import {
 } from "typeorm";
 
 export abstract class BaseEntity {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn()
   id?: string;
 
   @Column({ type: ENUM_COLUMN_TYPES.BOOLEAN, default: true, nullable: true })

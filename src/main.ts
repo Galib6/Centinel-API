@@ -15,7 +15,6 @@ const logger = new Logger();
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
-    cors: true,
     logger: !ENV.isDevelopment
       ? createLogger()
       : ["error", "warn", "debug", "log", "verbose"],
@@ -27,18 +26,22 @@ async function bootstrap() {
   app.setBaseViewsDir(join(process.cwd(), "views"));
   app.setViewEngine("hbs");
 
+  app.enableCors({
+    origin: configService.get("corsAllowedOrigins"),
+  });
+
   app.use(urlencoded({ extended: true }));
   app.use(
     json({
       limit: "10mb",
-    }),
+    })
   );
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
       whitelist: true,
       forbidNonWhitelisted: true,
-    }),
+    })
   );
 
   app.setGlobalPrefix(configService.get("global.apiPrefix"));
@@ -48,11 +51,11 @@ async function bootstrap() {
 
   await app.listen(configService.get("global.port"));
   logger.log(
-    `🚀🚀🚀🚀 Application is running on: ${await app.getUrl()} 🚀🚀🚀🚀`,
+    `🚀🚀🚀🚀 Application is running on: ${await app.getUrl()} 🚀🚀🚀🚀`
   );
 
   logger.log(
-    `📖📖📖 Documentation is available on: ${await app.getUrl()}/docs 📖📖📖`,
+    `📖📖📖 Documentation is available on: ${await app.getUrl()}/docs 📖📖📖`
   );
 }
 bootstrap();

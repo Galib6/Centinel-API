@@ -21,12 +21,12 @@ import { UserService } from "../services/user.service";
 @ApiTags("User")
 @ApiBearerAuth()
 @Controller("users")
+@Auth(AuthType.None)
 export class UserController {
   RELATIONS = ["userRoles", "userRoles.role"];
   constructor(private readonly service: UserService) {}
 
   @Get()
-  @Auth(AuthType.Bearer, AuthType.Permission)
   async findAll(
     @Query() query: FilterUserDTO
   ): Promise<SuccessResponse | User[]> {
