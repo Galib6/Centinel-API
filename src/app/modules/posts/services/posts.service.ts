@@ -8,9 +8,9 @@ import { BaseService } from "@src/app/base";
 import { EntityManagerUtil } from "@src/app/common/utils/EntityManager.utils";
 import { asyncForEach } from "@src/shared";
 import { DataSource, Repository } from "typeorm";
-import { CreateTagDto } from "../../tags/dtos/create.dto";
 import { TagsService } from "../../tags/services/tags.service";
 import { CreatePostDto } from "../dtos/create.dto";
+import { CreatePostTagsDto } from "../dtos/create.PostTags.dto";
 import { UpdatePostDto } from "../dtos/update.dto";
 import { UpdatePostTagDto } from "../dtos/update.PostTags.dto";
 import { PostEntity } from "../entities/post.entity";
@@ -36,7 +36,7 @@ export class PostService extends BaseService<PostEntity> {
     createPostDto: CreatePostDto,
     relations: string[]
   ): Promise<PostEntity> {
-    const { tags, ...createPost } = createPostDto;
+    const { postTags, ...createPost } = createPostDto;
 
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
@@ -53,13 +53,15 @@ export class PostService extends BaseService<PostEntity> {
         throw new BadRequestException();
       }
 
-      if (tags && tags.length) {
-        await asyncForEach(tags, async (tag: CreateTagDto) => {
-          const isExists = await this.tagsService.isExist(tag);
+      if (postTags && postTags.length) {
+        await asyncForEach(postTags, async (postTag: CreatePostTagsDto) => {
+          const isExists = await this.tagsService.isExist({
+            id: postTag.tagId,
+          });
 
           await queryRunner.manager.save(
             Object.assign(new PostTag(), {
-              tag: tag,
+              tag: postTag.tagId,
               post: createdUser?.id,
             })
           );

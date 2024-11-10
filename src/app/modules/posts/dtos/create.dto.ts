@@ -10,11 +10,13 @@ import {
   IsUrl,
   Matches,
   MaxLength,
+  ValidateNested,
 } from "class-validator";
 import { CreateMetaOptionsDto } from "../../meta-options/dtos/create.dto";
 import { MetaOption } from "../../meta-options/entities/meta-options.entity";
 import { PostStatus } from "../enum/postStatus.enum";
 import { PostType } from "../enum/postType.enum";
+import { CreatePostTagsDto } from "./create.PostTags.dto";
 
 export class CreatePostDto {
   @ApiProperty({
@@ -82,13 +84,12 @@ export class CreatePostDto {
   readonly featuredImageUrl?: string;
 
   @ApiPropertyOptional({
-    type: "array",
-    example: [1, 2],
+    type: [CreatePostTagsDto],
   })
   @IsArray()
-  // @ValidateNested({ each: true })
-  @Type(() => Number)
-  readonly tags?: number[];
+  @ValidateNested({ each: true })
+  @Type(() => CreatePostTagsDto)
+  readonly postTags?: CreatePostTagsDto[];
 
   @ApiPropertyOptional({
     type: CreateMetaOptionsDto,

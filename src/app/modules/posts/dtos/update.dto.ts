@@ -6,7 +6,7 @@ import { CreatePostDto } from "./create.dto";
 import { UpdatePostTagDto } from "./update.PostTags.dto";
 
 export class UpdatePostDto extends PartialType(
-  OmitType(CreatePostDto, ["tags"])
+  OmitType(CreatePostDto, ["postTags"])
 ) {
   @ApiProperty({
     type: [CreateTagDto],

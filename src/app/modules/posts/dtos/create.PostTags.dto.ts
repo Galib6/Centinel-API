@@ -3,7 +3,8 @@ import { IsNumber, IsOptional } from "class-validator";
 
 export class CreatePostTagsDto {
   @ApiProperty({
-    type: "string",
+    type: "number",
+    example: 1,
   })
   @IsNumber()
   @IsOptional()
