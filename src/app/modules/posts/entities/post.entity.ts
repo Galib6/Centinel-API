@@ -1,6 +1,7 @@
 import { BaseEntity } from "@src/app/base";
 import { ENUM_COLUMN_TYPES, ENUM_TABLE_NAMES } from "@src/shared";
-import { Column, Entity, OneToMany } from "typeorm";
+import { Column, Entity, OneToMany, OneToOne } from "typeorm";
+import { MetaOption } from "../../meta-options/entities/meta-options.entity";
 import { PostStatus } from "../enum/postStatus.enum";
 import { PostType } from "../enum/postType.enum";
 import { PostTag } from "./PostTag.entity";
@@ -59,4 +60,7 @@ export class PostEntity extends BaseEntity {
 
   @OneToMany((t) => PostTag, (postTags) => postTags.post, { cascade: true })
   postTags?: PostTag[];
+
+  @OneToOne(() => MetaOption, (e) => e.post)
+  metaOption?: MetaOption;
 }

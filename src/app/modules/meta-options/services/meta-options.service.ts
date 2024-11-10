@@ -2,13 +2,13 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { BaseService } from "@src/app/base";
 import { Repository } from "typeorm";
-import { PostTag } from "../entities/PostTag.entity";
+import { MetaOption } from "../entities/meta-options.entity";
 
 @Injectable()
-export class PostTagService extends BaseService<PostTag> {
+export class MetaOptionService extends BaseService<MetaOption> {
   constructor(
-    @InjectRepository(PostTag)
-    public readonly _repo: Repository<PostTag>
+    @InjectRepository(MetaOption)
+    public readonly _repo: Repository<MetaOption>
   ) {
     super(_repo);
   }

@@ -20,11 +20,10 @@ export abstract class BaseService<T extends BaseEntity>
 {
   constructor(public repo: Repository<T>) {}
 
-  public async isExist(filters: T): Promise<T> {
+  public async isExist(filters: Partial<T>): Promise<T> {
     const isExist = await this.repo.findOne({
       where: filters as FindOptionsWhere<T>,
     });
-
     if (!isExist) {
       throw new NotFoundException(`${this.repo.metadata.name} Not Found`);
     }

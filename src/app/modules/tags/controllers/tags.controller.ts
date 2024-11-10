@@ -15,7 +15,7 @@ import { AuthType } from "@src/app/enums/auth-type.enum";
 import { SuccessResponse } from "@src/app/types";
 import { CreateTagDto } from "../dtos/create.dto";
 import { FilterPostDto } from "../dtos/filter.dto";
-import { UpdatePostDto } from "../dtos/update.dto";
+import { UpdateTagDto } from "../dtos/update.dto";
 import { Tag } from "../entities/tags.entity";
 import { TagsService } from "../services/tags.service";
 
@@ -48,7 +48,7 @@ export class PostsController {
   @Patch(":id")
   async updateOne(
     @Param("id", ParseIntPipe) id: string,
-    @Body() body: UpdatePostDto
+    @Body() body: UpdateTagDto
   ): Promise<Tag> {
     return this.postService.updateOneBase(id, body, {
       relations: this.RELATIONS,

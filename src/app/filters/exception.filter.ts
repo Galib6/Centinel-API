@@ -6,6 +6,7 @@ import {
   HttpStatus,
   ExceptionFilter as NestExceptionFilter,
 } from "@nestjs/common";
+import { ENV } from "@src/env";
 
 @Catch()
 export class ExceptionFilter implements NestExceptionFilter {
@@ -13,10 +14,10 @@ export class ExceptionFilter implements NestExceptionFilter {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
 
-    console.log("exception", exception);
-
     let statusCode: number;
     let errorMessages: string[] = [exception.message];
+
+    console.log(exception);
 
     if (exception instanceof TypeError) {
       statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -57,14 +58,28 @@ export class ExceptionFilter implements NestExceptionFilter {
       statusCode = statusCode ? statusCode : HttpStatus.INTERNAL_SERVER_ERROR;
     }
 
+    const handleErrorMessage = (errorMessages) => {
+      if (
+        Array.isArray(errorMessages) &&
+        errorMessages?.length &&
+        ENV.isDevelopment
+      ) {
+        return [
+          ...(exception.response?.detail ? [exception.response?.detail] : []),
+          errorMessages[0],
+        ];
+      } else if (Array.isArray(errorMessages) && errorMessages?.length) {
+        return [errorMessages[0]];
+      } else {
+        return "something went wrong";
+      }
+    };
+
     const res = {
       success: false,
       statusCode: statusCode,
-      message:
-        Array.isArray(errorMessages) && errorMessages?.length
-          ? errorMessages[0]
-          : "something went wrong",
-      errorMessages,
+      message: handleErrorMessage(errorMessages),
+      // errorMessages,
     };
     response.status(statusCode).json(res);
   }

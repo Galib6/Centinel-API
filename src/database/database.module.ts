@@ -18,6 +18,7 @@ import databaseConfig from "./configs/database.config";
         password: configService.get("database.password"),
         host: configService.get("database.host"),
         database: configService.get("database.name"),
+        logging: configService.get("database.logging"),
       }),
     }),
   ],

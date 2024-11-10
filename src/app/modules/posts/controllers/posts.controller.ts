@@ -1,3 +1,4 @@
+import { CacheInterceptor } from "@nestjs/cache-manager";
 import {
   Body,
   Controller,
@@ -8,6 +9,7 @@ import {
   Patch,
   Post,
   Query,
+  UseInterceptors,
 } from "@nestjs/common";
 import { ApiBearerAuth } from "@nestjs/swagger";
 import { Auth } from "@src/app/decorators";
@@ -22,8 +24,9 @@ import { PostService } from "../services/posts.service";
 @Controller("posts")
 @ApiBearerAuth()
 @Auth(AuthType.None)
+@UseInterceptors(CacheInterceptor)
 export class PostsController {
-  RELATIONS = ["postTags", "postTags.tag"];
+  RELATIONS = ["postTags", "postTags.tag", "metaOption"];
 
   constructor(private readonly postService: PostService) {}
 
@@ -31,7 +34,7 @@ export class PostsController {
   async findAll(
     @Query() query: FilterPostDto
   ): Promise<SuccessResponse | PostEntity[]> {
-    return this.postService.getPostsWithSortedTags();
+    return this.postService.findAllBase(query, { relations: this.RELATIONS });
   }
 
   @Get(":id")
@@ -48,21 +51,21 @@ export class PostsController {
   async updateOne(
     @Param("id", ParseIntPipe) id: string,
     @Body() body: UpdatePostDto
-  ): Promise<PostEntity> {
-    return this.postService.updateOneBase(id, body, {
-      relations: this.RELATIONS,
-    });
+  ): Promise<any> {
+    return this.postService.updatePost(id, body, this.RELATIONS);
   }
 
-  @Delete()
+  @Delete(":id")
   async deleteOne(
     @Param("id", ParseIntPipe) id: string
   ): Promise<SuccessResponse> {
+    const isExist = await this.postService.isExist({ id });
     return this.postService.deleteOneBase(id);
   }
 
   @Delete("soft/:id")
   async softDeleteOne(@Param("id") id: string): Promise<SuccessResponse> {
+    const isExist = await this.postService.isExist({ id });
     return this.postService.softDeleteOneBase(id);
   }
 }

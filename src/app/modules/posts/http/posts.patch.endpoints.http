@@ -1,0 +1,43 @@
+### Get all users
+PATCH http://localhost:8000/api/v1/posts/64
+Content-Type: application/json
+
+{
+  "title": "string",
+  "postType": "page",
+  "slug": "strxcvzssxzzvxcving",
+  "status": "published",
+  "content": "string",
+  "schema": "{\"message\":\"schema must be a json string\"}",
+  "featuredImageUrl": "https://example.com/image.jpg",
+  "metaOption": {
+    "metaValue": "{\"sidebarENabled\": true}"
+  },
+  "postTags": [
+    {
+      "id": 86,
+      "isDeleted": true
+    },
+    {
+      "id":88,
+      "tagId": 23,
+      "isDeleted":false
+    },
+    {
+      "tagId": 22,
+      "orderPriority": 1
+    }
+    // {
+    //   "tagId": 23,
+    //   "orderPriority": 1
+    // }
+    // {
+    //   "tagId": 18,
+    //   "orderPriority": 1
+    // },
+    // {
+    //   "tagId": 19,
+    //   "orderPriority": 1
+    // }
+  ]
+}

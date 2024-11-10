@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import {
+  IsBoolean,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -49,4 +50,8 @@ export class CreateTagDto {
   @IsUrl()
   @MaxLength(1024)
   featuredImageUrl?: string;
+
+  @IsOptional()
+  @IsBoolean()
+  isDeleted?: boolean;
 }

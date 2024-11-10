@@ -5,10 +5,11 @@ import { PostsController } from "./controllers/posts.controller";
 import { PostEntity } from "./entities/post.entity";
 import { PostTag } from "./entities/PostTag.entity";
 import { PostService } from "./services/posts.service";
+import { PostTagService } from "./services/PostTags.service";
 
 const modules = [TagsModule];
 const entities = [PostEntity, PostTag];
-const services = [PostService];
+const services = [PostService, PostTagService];
 const subscribers = [];
 const controllers = [PostsController];
 const webControllers = [];
