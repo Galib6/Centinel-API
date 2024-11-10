@@ -101,6 +101,7 @@ export class PostService extends BaseService<PostEntity> {
       /**updating meta options and others start */
       const updatedData = Object.assign(existingPost, createPost);
       const updatedMetaOption = {
+        ...(body.metaOption?.id ? { id: body.metaOption?.id } : {}),
         metaValue:
           body.metaOption?.metaValue ?? updatedData?.metaOption?.metaValue,
       };

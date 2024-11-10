@@ -61,6 +61,6 @@ export class PostEntity extends BaseEntity {
   @OneToMany((t) => PostTag, (postTags) => postTags.post, { cascade: true })
   postTags?: PostTag[];
 
-  @OneToOne(() => MetaOption, (e) => e.post)
+  @OneToOne(() => MetaOption, (e) => e.post, { cascade: true })
   metaOption?: MetaOption;
 }

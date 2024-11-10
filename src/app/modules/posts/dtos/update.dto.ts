@@ -1,12 +1,13 @@
 import { ApiProperty, OmitType, PartialType } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsArray, IsOptional, ValidateNested } from "class-validator";
+import { UpdateMetaOption } from "../../meta-options/dtos/update.dto";
 import { CreateTagDto } from "../../tags/dtos/create.dto";
 import { CreatePostDto } from "./create.dto";
 import { UpdatePostTagDto } from "./update.PostTags.dto";
 
 export class UpdatePostDto extends PartialType(
-  OmitType(CreatePostDto, ["postTags"])
+  OmitType(CreatePostDto, ["postTags", "metaOption"])
 ) {
   @ApiProperty({
     type: [CreateTagDto],
@@ -33,4 +34,11 @@ export class UpdatePostDto extends PartialType(
   @IsArray()
   @ValidateNested()
   postTags: UpdatePostTagDto[];
+
+  @ApiProperty({
+    type: UpdateMetaOption,
+  })
+  @IsOptional()
+  @Type(() => UpdatePostTagDto)
+  metaOption: UpdateMetaOption;
 }
