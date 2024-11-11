@@ -13,6 +13,7 @@ import { HelpersModule } from "./helpers/helpers.module";
 import { ResponseInterceptor } from "./interceptors/response.interceptor";
 import { AuthMiddleware } from "./middlewares";
 import { AuthModule } from "./modules/auth/auth.module";
+import { GalleryModule } from "./modules/galleries/gallery.module";
 import { MetaOptionsModule } from "./modules/meta-options/meta-options.module";
 import { PostsModule } from "./modules/posts/posts.module";
 import { TagsModule } from "./modules/tags/tags.module";
@@ -29,6 +30,7 @@ const MODULES = [
   PostsModule,
   TagsModule,
   MetaOptionsModule,
+  GalleryModule,
 ];
 @Module({
   imports: [

@@ -13,6 +13,7 @@ export enum ENUM_TABLE_NAMES {
   TAGS = "tags",
   POSTS_TAGS = "post_tag",
   META_OPTIONS = "meta-option",
+  FILE_STORAGES = "file_storages",
 }
 
 export enum ENUM_SEQUENCE {
