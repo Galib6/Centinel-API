@@ -32,7 +32,7 @@ export class AuthService {
     private readonly bcryptHelper: BcryptHelper,
 
     @Inject(globalConfig.KEY)
-    private readonly globalConfiguration: ConfigType<typeof globalConfig>,
+    private readonly globalConfiguration: ConfigType<typeof globalConfig>
   ) {}
 
   async resetPassword(payload: ResetPasswordDTO): Promise<SuccessResponse> {
@@ -50,12 +50,12 @@ export class AuthService {
         email,
         hash,
         otp: this.globalConfiguration.nodeEnv === "production" ? null : otp,
-      },
+      }
     );
   }
 
   async verifyResetPassword(
-    payload: VerifyResetPasswordDTO,
+    payload: VerifyResetPasswordDTO
   ): Promise<SuccessResponse> {
     const { email, otp, newPassword, hash } = payload;
     const user = await this.userService.isExist({
@@ -80,7 +80,7 @@ export class AuthService {
 
   async changePassword(
     payload: ChangePasswordDTO,
-    authUser: IActiveUser,
+    authUser: IActiveUser
   ): Promise<SuccessResponse> {
     const { oldPassword, newPassword } = payload;
 
@@ -102,7 +102,7 @@ export class AuthService {
 
     const isPasswordMatched = await this.bcryptHelper.compareHash(
       oldPassword,
-      isExist.password,
+      isExist.password
     );
 
     if (!isPasswordMatched) {
@@ -123,13 +123,13 @@ export class AuthService {
     const user = await this.userService.registerUser(payload);
     return new SuccessResponse(
       "User registered successfully. Please login",
-      user,
+      user
     );
   }
 
   async refreshToken(payload: RefreshTokenDTO): Promise<SuccessResponse> {
     const decoded = await this.jwtHelper.verifyRefreshToken(
-      payload.refreshToken,
+      payload.refreshToken
     );
     if (!decoded.user || !decoded.user.id) {
       throw new BadRequestException("Invalid token");
@@ -155,7 +155,7 @@ export class AuthService {
       {
         relations: ["role"],
         withoutPaginate: true,
-      },
+      }
     )) as UserRole[];
 
     const roles = userRoles.map((uR) => uR.role.title);
@@ -182,7 +182,7 @@ export class AuthService {
     const token = this.jwtHelper.makeAccessToken(tokenPayload);
     const refreshToken = this.jwtHelper.makeRefreshToken(refreshTokenPayload);
     const permissionToken = this.jwtHelper.makePermissionToken(
-      permissionTokenPayload,
+      permissionTokenPayload
     );
 
     return new SuccessResponse("Refresh token success", {
@@ -206,10 +206,10 @@ export class AuthService {
       {
         relations: ["role"],
         withoutPaginate: true,
-      },
+      }
     )) as UserRole[];
 
-    const roles = userRoles.map((uR) => uR.role.title);
+    const roles = userRoles?.map((uR) => uR.role?.title) || [];
     const permissions = await this.userRoleService.getUserPermissions(user.id);
 
     const tokenPayload = {
@@ -234,7 +234,7 @@ export class AuthService {
     const refreshToken =
       await this.jwtHelper.makeRefreshToken(refreshTokenPayload);
     const permissionToken = await this.jwtHelper.makePermissionToken(
-      permissionTokenPayload,
+      permissionTokenPayload
     );
 
     return new SuccessResponse("Login success", {
@@ -250,20 +250,20 @@ export class AuthService {
 
   async sendOtp(payload: SendOtpDTO) {
     const user = await this.userService.findOrCreateByPhoneNumber(
-      payload.phoneNumber,
+      payload.phoneNumber
     );
 
     const otp = gen6digitOTP();
     const authStat = await this.authStatService.createOrUpdateOtpByPhoneNumber(
       payload.phoneNumber,
-      otp,
+      otp
     );
 
     return new SuccessResponse(
       "OTP sent successfully",
       this.globalConfiguration.nodeEnv === "production"
         ? null
-        : { otp: authStat.otp },
+        : { otp: authStat.otp }
     );
   }
 
@@ -281,7 +281,7 @@ export class AuthService {
       {
         relations: ["role"],
         withoutPaginate: true,
-      },
+      }
     )) as UserRole[];
 
     const roles = userRoles.map((uR) => uR.role.title);

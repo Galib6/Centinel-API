@@ -13,8 +13,12 @@ import { HelpersModule } from "./helpers/helpers.module";
 import { ResponseInterceptor } from "./interceptors/response.interceptor";
 import { AuthMiddleware } from "./middlewares";
 import { AuthModule } from "./modules/auth/auth.module";
+import { CategoryModule } from "./modules/categories/categories.module";
+import { CommentsModule } from "./modules/comments/comments.module";
 import { GalleryModule } from "./modules/galleries/gallery.module";
+import { MailModule } from "./modules/mail/mail.module";
 import { MetaOptionsModule } from "./modules/meta-options/meta-options.module";
+import { PollsModule } from "./modules/polls/polls.module";
 import { PostsModule } from "./modules/posts/posts.module";
 import { TagsModule } from "./modules/tags/tags.module";
 import { UserModule } from "./modules/user/user.module";
@@ -31,6 +35,10 @@ const MODULES = [
   TagsModule,
   MetaOptionsModule,
   GalleryModule,
+  MailModule,
+  CategoryModule,
+  CommentsModule,
+  PollsModule,
 ];
 @Module({
   imports: [

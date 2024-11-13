@@ -14,6 +14,10 @@ export enum ENUM_TABLE_NAMES {
   POSTS_TAGS = "post_tag",
   META_OPTIONS = "meta-option",
   FILE_STORAGES = "file_storages",
+  CATEGORIES = "categories",
+  COMMENTS = "comments",
+  POLLS = "polls",
+  POLL_OPTIONS = "poll-options",
 }
 
 export enum ENUM_SEQUENCE {

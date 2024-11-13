@@ -31,7 +31,7 @@ export default Joi.object({
 
   // Security configuration
   CORS_ALLOWED_ORIGINS: Joi.string().default(
-    "http://localhost,http://localhost:4200",
+    "http://localhost,http://localhost:4200"
   ),
   RATE_LIMIT_TTL: Joi.number().default(60000),
   RATE_LIMIT_MAX: Joi.number().default(100),
@@ -47,4 +47,10 @@ export default Joi.object({
 
   // Auth configuration
   OTP_EXPIRES_IN: Joi.number().default(5000),
+
+  //smtp
+  SMTP_HOST: Joi.string().required(),
+  SMTP_PORT: Joi.number().required(),
+  SMTP_USERNAME: Joi.string().required(),
+  SMTP_PASSWORD: Joi.string().required(),
 });

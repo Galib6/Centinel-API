@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome to Our Service</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+        padding: 20px;
+      }
+      .container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out;
+      }
+      .container:hover {
+        transform: scale(1.02);
+      }
+      .header {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .header h1 {
+        margin: 0;
+        animation: fadeIn 1s ease-in-out;
+      }
+      .content {
+        line-height: 1.6;
+        animation: fadeIn 1.5s ease-in-out;
+      }
+      .footer {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 0.9em;
+        color: #777;
+        animation: fadeIn 2s ease-in-out;
+      }
+      a {
+        color: #007bff;
+        text-decoration: none;
+        transition: color 0.3s ease-in-out;
+      }
+      a:hover {
+        color: #0056b3;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Welcome, <%= name %>!</h1>
+      </div>
+      <div class="content">
+        <p>Hi <%= name %>,</p>
+        <p>
+          Thank you for joining our service. We are excited to have you on
+          board!
+        </p>
+        <p>
+          To get started, please verify your email address by clicking the link
+          below:
+        </p>
+        <p><a href="<%= loginUrl %>">Verify Email</a></p>
+        <p>
+          If you have any questions, feel free to reply to this email or visit
+          our support page.
+        </p>
+        <p>Best regards,</p>
+        <p>The Team</p>
+      </div>
+      <div class="footer">
+        <p>
+          &copy; <%= new Date().getFullYear() %> Our Service. All rights
+          reserved.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

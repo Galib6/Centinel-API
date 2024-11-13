@@ -15,6 +15,7 @@ import { ApiBearerAuth } from "@nestjs/swagger";
 import { Auth } from "@src/app/decorators";
 import { AuthType } from "@src/app/enums/auth-type.enum";
 import { SuccessResponse } from "@src/app/types";
+import { MailService } from "../../mail/providers/mail.service";
 import { CreatePostDto } from "../dtos/create.dto";
 import { FilterPostDto } from "../dtos/filter.dto";
 import { UpdatePostDto } from "../dtos/update.dto";
@@ -28,12 +29,24 @@ import { PostService } from "../services/posts.service";
 export class PostsController {
   RELATIONS = ["postTags", "postTags.tag", "metaOption"];
 
-  constructor(private readonly postService: PostService) {}
+  constructor(
+    private readonly postService: PostService,
+    private readonly mailService: MailService
+  ) {}
 
   @Get()
   async findAll(
     @Query() query: FilterPostDto
   ): Promise<SuccessResponse | PostEntity[]> {
+    try {
+      await this.mailService.sendUserWelcome({
+        email: "asadullahalgalib81@gmail.com",
+        firstName: "Galib",
+        lastName: "Last",
+      });
+    } catch (err) {
+      console.log(err);
+    }
     return this.postService.findAllBase(query, { relations: this.RELATIONS });
   }
 

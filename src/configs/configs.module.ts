@@ -1,20 +1,18 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import * as path from "path";
+import { ENV } from "@src/env";
+import { join } from "path";
 import environmentValidation from "./environment.validation";
 import globalConfig from "./global.config";
-
-const ENV = process.env.NODE_ENV;
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: path.join(
+      envFilePath: join(
         process.cwd(),
         "environments",
-        // `${ENV || "production"}.env`
-        "development.env",
+        `${ENV.isDevelopment ? "development" : "production"}.env`
       ),
       load: [globalConfig],
       validationSchema: environmentValidation,

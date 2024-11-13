@@ -1,11 +1,15 @@
 import { ENUM_COLUMN_TYPES } from "@src/shared";
+import { Type } from "class-transformer";
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
+  RelationId,
   UpdateDateColumn,
 } from "typeorm";
+import { User } from "../modules/user/entities/user.entity";
 
 export abstract class BaseEntity {
   @PrimaryGeneratedColumn()
@@ -14,14 +18,19 @@ export abstract class BaseEntity {
   @Column({ type: ENUM_COLUMN_TYPES.BOOLEAN, default: true, nullable: true })
   isActive?: boolean;
 
-  @Column({ type: ENUM_COLUMN_TYPES.VARCHAR, nullable: true, select: false })
-  createdBy?: string;
+  @ManyToOne(() => User, { onDelete: "NO ACTION" })
+  @Type(() => User)
+  createdBy?: User | string;
 
-  @Column({ type: ENUM_COLUMN_TYPES.VARCHAR, nullable: true, select: false })
-  updatedBy?: string;
+  @RelationId((e: BaseEntity) => e.createdBy)
+  createdId?: User;
 
-  @Column({ type: ENUM_COLUMN_TYPES.VARCHAR, nullable: true, select: false })
-  deletedBy?: string;
+  @ManyToOne(() => User, { onDelete: "NO ACTION" })
+  @Type(() => User)
+  updatedBy?: User;
+
+  @RelationId((e: BaseEntity) => e.updatedBy)
+  updatedById?: User;
 
   @CreateDateColumn({ type: ENUM_COLUMN_TYPES.TIMESTAMP_UTC })
   createdAt?: Date;

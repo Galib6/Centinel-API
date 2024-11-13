@@ -58,6 +58,14 @@ export class CreatePostDto {
   readonly status: PostStatus;
 
   @ApiProperty({
+    type: "number",
+    required: true,
+    example: 1,
+  })
+  @IsNotEmpty()
+  readonly categoryId: string;
+
+  @ApiProperty({
     type: "string",
     required: true,
   })

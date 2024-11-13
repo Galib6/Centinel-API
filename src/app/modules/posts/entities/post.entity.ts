@@ -1,6 +1,14 @@
 import { BaseEntity } from "@src/app/base";
 import { ENUM_COLUMN_TYPES, ENUM_TABLE_NAMES } from "@src/shared";
-import { Column, Entity, OneToMany, OneToOne } from "typeorm";
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  RelationId,
+} from "typeorm";
+import { Category } from "../../categories/entities/categories.entity";
 import { MetaOption } from "../../meta-options/entities/meta-options.entity";
 import { PostStatus } from "../enum/postStatus.enum";
 import { PostType } from "../enum/postType.enum";
@@ -38,6 +46,12 @@ export class PostEntity extends BaseEntity {
     nullable: false,
   })
   status: PostStatus;
+
+  @ManyToOne(() => Category)
+  category?: Category;
+
+  @RelationId((e: PostEntity) => e.category)
+  categoryId?: string;
 
   @Column({
     type: ENUM_COLUMN_TYPES.VARCHAR,

@@ -17,4 +17,10 @@ export default registerAs("global", () => ({
   logFolder: process.env.LOG_FOLDER,
 
   otpExpiresIn: parseInt(process.env.OTP_EXPIRES_IN, 10),
+
+  /**SMTP */
+  smtpHost: process.env.SMTP_HOST,
+  smtpPort: process.env.SMTP_PORT,
+  smtpUserName: process.env.SMTP_USERNAME,
+  smtpPassword: process.env.SMTP_PASSWORD,
 }));
