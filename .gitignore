@@ -2,6 +2,10 @@
 /dist
 /node_modules
 
+
+# Ignore environment files
+environments/development.env
+
 # Logs
 logs
 *.log
