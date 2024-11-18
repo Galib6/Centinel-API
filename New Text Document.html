@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notification Test</title>
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      #notifications {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        max-height: 400px;
+        overflow-y: auto;
+      }
+
+      .notification {
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 4px;
+        background-color: #f4f4f4;
+        border: 1px solid #ddd;
+      }
+
+      .updated {
+        background-color: #e0f7fa;
+        border-color: #00bcd4;
+      }
+
+      .initial {
+        background-color: #f9fbe7;
+        border-color: #cddc39;
+      }
+
+      .notification p {
+        margin: 0;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Real-Time Notifications</h1>
+    <button id="connect">Connect</button>
+    <div id="notifications"></div>
+
+    <script>
+      let socket;
+
+      // Handle initial connection
+      document.getElementById("connect").addEventListener("click", () => {
+        const userId = 1; // Replace with the logged-in user's ID
+        socket = io("http://localhost:8000", {
+          query: { userId },
+        });
+
+        socket.on("connect", () => {
+          console.log("Connected to server");
+        });
+
+        // Handle initial notifications
+        socket.on("initialNotifications", (notifications) => {
+          const notificationDiv = document.getElementById("notifications");
+          notifications.forEach((notification) => {
+            const notificationElement = document.createElement("div");
+            notificationElement.classList.add("notification", "initial");
+            notificationElement.innerHTML = `<p><strong>Initial Notification:</strong> ${notification.message}</p>`;
+            notificationDiv.appendChild(notificationElement);
+          });
+        });
+
+        // Handle updated notifications
+        socket.on("updatedNotification", (updatedNotification) => {
+          const notificationDiv = document.getElementById("notifications");
+          const notificationElement = document.createElement("div");
+          notificationElement.classList.add("notification", "updated");
+          console.log(updatedNotification);
+          notificationElement.innerHTML = `<p><strong>Updated Notification:</strong> ${updatedNotification.message}</p>`;
+          notificationDiv.appendChild(notificationElement);
+        });
+
+        socket.on("disconnect", () => {
+          console.log("Disconnected from server");
+        });
+      });
+    </script>
+  </body>
+</html>

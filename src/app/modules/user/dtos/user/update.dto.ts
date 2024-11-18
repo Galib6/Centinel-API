@@ -1,13 +1,11 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsUUIDArray } from "@src/app/decorators";
 import { Type } from "class-transformer";
 import {
   IsBoolean,
-  IsEmail,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
-  IsUUID,
   MaxLength,
   MinLength,
   ValidateNested,
@@ -20,7 +18,7 @@ export class UpdateRolesDTO {
     example: "c10ee33d-20a7-4689-8f80-929963400f7d",
   })
   @IsNotEmpty()
-  @IsUUID()
+  @IsNumber()
   readonly role!: string;
 
   @ApiProperty({

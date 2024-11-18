@@ -18,6 +18,7 @@ import { CommentsModule } from "./modules/comments/comments.module";
 import { GalleryModule } from "./modules/galleries/gallery.module";
 import { MailModule } from "./modules/mail/mail.module";
 import { MetaOptionsModule } from "./modules/meta-options/meta-options.module";
+import { NotificationsModule } from "./modules/notifications/notifications.module";
 import { PollsModule } from "./modules/polls/polls.module";
 import { PostsModule } from "./modules/posts/posts.module";
 import { TagsModule } from "./modules/tags/tags.module";
@@ -39,6 +40,7 @@ const MODULES = [
   CategoryModule,
   CommentsModule,
   PollsModule,
+  NotificationsModule,
 ];
 @Module({
   imports: [

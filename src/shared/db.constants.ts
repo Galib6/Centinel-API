@@ -18,6 +18,8 @@ export enum ENUM_TABLE_NAMES {
   COMMENTS = "comments",
   POLLS = "polls",
   POLL_OPTIONS = "poll-options",
+  NOTIFICATIONS = "notifications",
+  USER_NOTIFICATIONS = "user_notifications",
 }
 
 export enum ENUM_SEQUENCE {
