@@ -66,7 +66,7 @@ export class NotificationsService extends BaseService<Notification> {
       console.log(userRoles);
       await asyncForEach(userRoles, async (userRole: UserRole) => {
         await this.notificationGateway.sendUpdatedNotificationToUser(
-          +userRole?.userId
+          +userRole?.user
         );
       });
     } catch (err) {
