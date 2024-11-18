@@ -15,7 +15,10 @@ import { UserService } from "../../user/services/user.service";
 import { UserRoleService } from "../../user/services/userRole.service";
 import { Notification } from "../entities/Notifications.entity";
 import { UserNotification } from "../entities/userNotificationTable";
-import { NotificationTargetType } from "../enum/enum.notifications";
+import {
+  NotificationTargetType,
+  NotificationType,
+} from "../enum/enum.notifications";
 import { NotificationGateway } from "./notification.gateway";
 
 @Injectable()
@@ -38,8 +41,12 @@ export class NotificationsService extends BaseService<Notification> {
 
   public async createRoleBasedNotification(
     roleTitles: string[],
-    message: string
+    payload: {
+      message: string;
+      notificationType: NotificationType;
+    }
   ) {
+    const { message, notificationType } = payload;
     let res;
     try {
       const roles = await this.roleService.find({
@@ -52,10 +59,12 @@ export class NotificationsService extends BaseService<Notification> {
         Object.assign(new Notification(), {
           message,
           roles,
+          notificationType,
           targetType: NotificationTargetType.ROLE_BASED,
         })
       );
 
+      //sending real time update
       const userRoles = await this.userRoleService.find({
         where: {
           role: {
@@ -63,7 +72,6 @@ export class NotificationsService extends BaseService<Notification> {
           },
         },
       });
-      console.log(userRoles);
       await asyncForEach(userRoles, async (userRole: UserRole) => {
         await this.notificationGateway.sendUpdatedNotificationToUser(
           +userRole?.user
@@ -76,7 +84,14 @@ export class NotificationsService extends BaseService<Notification> {
     return res;
   }
 
-  public async createUserBasedNotification(userId: number, message: string) {
+  public async createUserBasedNotification(
+    userId: number,
+    payload: {
+      message: string;
+      notificationType: NotificationType;
+    }
+  ) {
+    const { message, notificationType } = payload;
     const user = await this.userService.isExist({ id: userId as any });
 
     try {
@@ -84,6 +99,7 @@ export class NotificationsService extends BaseService<Notification> {
         Object.assign(new Notification(), {
           message,
           user,
+          notificationType,
           targetType: NotificationTargetType.USER_BASED,
         })
       );
@@ -197,6 +213,8 @@ export class NotificationsService extends BaseService<Notification> {
             );
           }
         });
+
+        await this.notificationGateway.sendUpdatedNotificationToUser(userId);
 
         await queryRunner.commitTransaction();
         await queryRunner.release();

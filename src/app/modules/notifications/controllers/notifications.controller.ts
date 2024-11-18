@@ -1,13 +1,17 @@
-import { Controller, Get } from "@nestjs/common";
+import { Controller, Get, Post } from "@nestjs/common";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Auth } from "@src/app/decorators";
 import { AuthType } from "@src/app/enums/auth-type.enum";
+import { NotificationType } from "../enum/enum.notifications";
+import { NotificationsService } from "../services/Notifications.service";
 
 @ApiTags("Notifications")
 @Controller("notifications")
 @ApiBearerAuth()
 @Auth(AuthType.None)
 export class NotificationsController {
+  constructor(public readonly notificationService: NotificationsService) {}
+
   @Get("get-description")
   @ApiOperation({
     summary: "Get Notification WebSocket Info",
@@ -50,14 +54,13 @@ export class NotificationsController {
   //   });
   // }
 
-  // @Post()
-  // async createOne(
-  //   @Body() Notification: CreateNotificationDto
-  // ): Promise<Notification> {
-  //   return this.NotificationService.createOneBase(Notification, {
-  //     relations: this.RELATIONS,
-  //   });
-  // }
+  @Post()
+  async createOne(): Promise<any> {
+    return this.notificationService.createUserBasedNotification(1, {
+      message: "fdf",
+      notificationType: NotificationType.REMINDER,
+    });
+  }
 
   // @Patch(":id")
   // async updateOne(

@@ -3,7 +3,10 @@ import { ENUM_COLUMN_TYPES, ENUM_TABLE_NAMES } from "@src/shared";
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne } from "typeorm";
 import { Role } from "../../acl/entities/role.entity";
 import { User } from "../../user/entities/user.entity";
-import { NotificationTargetType } from "../enum/enum.notifications";
+import {
+  NotificationTargetType,
+  NotificationType,
+} from "../enum/enum.notifications";
 
 @Entity(ENUM_TABLE_NAMES.NOTIFICATIONS, { orderBy: { createdAt: "DESC" } })
 export class Notification extends BaseEntity {
@@ -28,4 +31,7 @@ export class Notification extends BaseEntity {
 
   @Column({ type: "text", nullable: false })
   message: string;
+
+  @Column({ type: ENUM_COLUMN_TYPES.VARCHAR, length: 50, nullable: true })
+  notificationType: NotificationType;
 }
