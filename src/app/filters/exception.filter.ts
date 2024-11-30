@@ -17,9 +17,9 @@ export class ExceptionFilter implements NestExceptionFilter {
     let statusCode: number;
     let errorMessages: string[] = [exception.message];
 
-    console.log(exception);
-
     if (exception instanceof TypeError) {
+      errorMessages = errorMessages;
+
       statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
 
       if (exception.message) {
@@ -59,6 +59,7 @@ export class ExceptionFilter implements NestExceptionFilter {
     }
 
     const handleErrorMessage = (errorMessages) => {
+      console.log(errorMessages);
       if (
         Array.isArray(errorMessages) &&
         errorMessages?.length &&
@@ -80,6 +81,7 @@ export class ExceptionFilter implements NestExceptionFilter {
       statusCode: statusCode,
       message: handleErrorMessage(errorMessages),
       // errorMessages,
+      exception,
     };
     response.status(statusCode).json(res);
   }

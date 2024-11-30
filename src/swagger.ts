@@ -32,6 +32,8 @@ export function setupSwagger(app: INestApplication): void {
     .addServer(configService.get("global.apiBaseUrl"))
     .addBearerAuth()
     .build();
+
+  console.log(options);
   const document = SwaggerModule.createDocument(app, options);
   const publicDoc = filterInternalRoutes(document, "web");
   SwaggerModule.setup("/docs", app, document, defaultSwaggerOpts);
