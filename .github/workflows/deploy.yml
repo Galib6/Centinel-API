@@ -146,7 +146,7 @@ jobs:
             docker run -e NODE_ENV=production -d \
               --restart always \
               -dit --name centinel-api \
-              -p 1337:1337 \
+              -p 9000:9000 \
               --name centinel-api \
               ${{secrets.DOCKER_USER}}/centinel-api:latest
 
