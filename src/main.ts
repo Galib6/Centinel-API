@@ -49,8 +49,6 @@ async function bootstrap() {
   setupSwagger(app);
 
   await app.listen(configService.get("global.port"));
-
-  console.log(configService.get("global.port"));
   logger.log(
     `🚀🚀🚀🚀 Application is running on: ${await app.getUrl()} 🚀🚀🚀🚀`
   );

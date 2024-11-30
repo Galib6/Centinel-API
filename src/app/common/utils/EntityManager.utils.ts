@@ -20,8 +20,6 @@ export class EntityManagerUtil<T, U> {
       parentId?: string;
     }
   ) {
-    console.log(this.checkExistence);
-
     const deleteItems = items.filter(options.getDeleteCondition);
     const updateItems = items.filter(options.getUpdateCondition);
     const newItems = items.filter(
@@ -87,12 +85,10 @@ export class EntityManagerUtil<T, U> {
 
   // Add new entities based on specified items
   private async addNewEntities(newItems: U[], createEntity: (item: U) => T) {
-    console.log(newItems);
     if (!newItems.length) return;
     await Promise.all(
       newItems.map(async (item) => {
         const entityInstance = createEntity(item);
-        console.log(entityInstance);
         await this.queryRunner.manager.save(entityInstance);
       })
     );

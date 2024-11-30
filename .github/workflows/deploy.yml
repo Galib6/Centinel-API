@@ -19,7 +19,7 @@ jobs:
           echo "APP_ENV=production" >> environments/production.env
           echo "NODE_ENV=production" >> environments/production.env
           echo "API_PREFIX=api/v1" >> environments/production.env
-          echo "API_BASE_URL=http://localhost:9000" >> environments/production.env
+          echo "API_BASE_URL=https://centinel-api.asadullahalgalib.tech" >> environments/production.env
           echo "TZ=UTC" >> environments/production.env
 
           echo "# Swagger" >> environments/production.env
