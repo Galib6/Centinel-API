@@ -4,6 +4,7 @@ import { APP_FILTER, APP_INTERCEPTOR } from "@nestjs/core";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { ConfigsModule } from "@src/configs/configs.module";
 import { DatabaseModule } from "@src/database/database.module";
+import { RateLimitModule } from "@src/throttler/throtller.module";
 import { join } from "path";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
@@ -48,6 +49,7 @@ const MODULES = [
     ...MODULES,
     ConfigsModule,
     GuardsModule,
+    RateLimitModule,
     CacheModule.register({
       isGlobal: true,
       max: 100,
