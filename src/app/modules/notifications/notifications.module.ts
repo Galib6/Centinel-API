@@ -5,8 +5,8 @@ import { UserModule } from "../user/user.module";
 import { NotificationsController } from "./controllers/notifications.controller";
 import { Notification } from "./entities/Notifications.entity";
 import { UserNotification } from "./entities/userNotificationTable";
-import { NotificationsService } from "./services/Notifications.service";
 import { NotificationGateway } from "./services/notification.gateway";
+import { NotificationsService } from "./services/Notifications.service";
 
 const modules = [UserModule, AclModule];
 const entities = [Notification, UserNotification];
