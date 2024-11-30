@@ -8,13 +8,16 @@ WORKDIR /app
 COPY package.json yarn.lock ./
 
 # Install dependencies
-RUN yarn
+RUN yarn install
 
 # Copy the rest of the application code
 COPY . .
+
+# Build the application
+RUN yarn build
 
 # Expose the application port
 EXPOSE 9000
 
 # Start the application
-CMD ["yarn", "start"]
+CMD ["yarn", "start:prod"]
