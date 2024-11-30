@@ -13,7 +13,7 @@ import { User } from "../../user/entities/user.entity";
 import { UserRole } from "../../user/entities/userRole.entity";
 import { UserService } from "../../user/services/user.service";
 import { UserRoleService } from "../../user/services/userRole.service";
-import { Notification } from "../entities/Notifications.entity";
+import { Notification } from "../entities/notifications.entity";
 import { UserNotification } from "../entities/userNotificationTable";
 import {
   NotificationTargetType,

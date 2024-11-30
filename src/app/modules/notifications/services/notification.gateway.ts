@@ -6,7 +6,7 @@ import {
   WebSocketServer,
 } from "@nestjs/websockets";
 import { Server, Socket } from "socket.io";
-import { NotificationsService } from "./Notifications.service";
+import { NotificationsService } from "./notifications.service";
 
 @WebSocketGateway({ cors: true })
 export class NotificationGateway

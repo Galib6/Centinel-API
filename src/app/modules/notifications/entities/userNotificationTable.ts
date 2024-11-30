@@ -2,7 +2,7 @@ import { BaseEntity } from "@src/app/base";
 import { ENUM_TABLE_NAMES } from "@src/shared";
 import { Column, Entity, ManyToOne, RelationId } from "typeorm";
 import { User } from "../../user/entities/user.entity";
-import { Notification } from "./Notifications.entity";
+import { Notification } from "./notifications.entity";
 
 @Entity(ENUM_TABLE_NAMES.USER_NOTIFICATIONS)
 export class UserNotification extends BaseEntity {

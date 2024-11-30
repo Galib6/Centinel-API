@@ -3,10 +3,10 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { AclModule } from "../acl/acl.module";
 import { UserModule } from "../user/user.module";
 import { NotificationsController } from "./controllers/notifications.controller";
-import { Notification } from "./entities/Notifications.entity";
+import { Notification } from "./entities/notifications.entity";
 import { UserNotification } from "./entities/userNotificationTable";
 import { NotificationGateway } from "./services/notification.gateway";
-import { NotificationsService } from "./services/Notifications.service";
+import { NotificationsService } from "./services/notifications.service";
 
 const modules = [UserModule, AclModule];
 const entities = [Notification, UserNotification];
