@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM node:21-alpine
 
 WORKDIR /app
 
@@ -7,7 +7,7 @@ COPY . .
 RUN yarn
 RUN yarn build
 
-EXPOSE 3000
+EXPOSE 8000
 
 RUN ["chmod", "+x", "./entrypoint.sh"]
 

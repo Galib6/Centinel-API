@@ -1,10 +1,11 @@
 # compiled output
 /dist
 /node_modules
+/environments
 
 
 # Ignore environment files
-environments/development.env
+*.env
 
 # Logs
 logs

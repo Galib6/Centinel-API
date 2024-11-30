@@ -23,6 +23,7 @@ import { PollsModule } from "./modules/polls/polls.module";
 import { PostsModule } from "./modules/posts/posts.module";
 import { TagsModule } from "./modules/tags/tags.module";
 import { UserModule } from "./modules/user/user.module";
+import { MessageGateway } from "./modules/video-conference/providers/SignalingGateway.service";
 
 const MODULES = [
   DatabaseModule,
@@ -56,6 +57,7 @@ const MODULES = [
   controllers: [AppController],
   providers: [
     AppService,
+    MessageGateway,
     {
       provide: APP_FILTER,
       useClass: ExceptionFilter,
