@@ -15,7 +15,7 @@ jobs:
       - name: Create environment folder and generate production.env
         run: |
           mkdir -p environment
-          echo "PORT=9000" > environment/production.env
+          echo "PORT=9000" > environments/production.env
           echo "APP_ENV=development" >> environment/production.env
           echo "NODE_ENV=development" >> environment/production.env
           echo "API_PREFIX=api/v1" >> environment/production.env
