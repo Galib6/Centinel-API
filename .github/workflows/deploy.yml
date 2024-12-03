@@ -39,7 +39,7 @@ jobs:
           echo "DB_LOGGING=false" >> environments/production.env
 
           echo "# Security" >> environments/production.env
-          echo "CORS_ALLOWED_ORIGINS=http://localhost,http://localhost:4200" >> environments/production.env
+          echo "CORS_ALLOWED_ORIGINS=http://localhost,http://localhost:4200,https://centinel-api.asadullahalgalib.tech" >> environments/production.env
           echo "RATE_LIMIT_TTL=60000" >> environments/production.env
           echo "RATE_LIMIT_MAX=100" >> environments/production.env
 
