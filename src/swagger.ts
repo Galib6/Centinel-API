@@ -29,7 +29,7 @@ export function setupSwagger(app: INestApplication): void {
     .setTitle(configService.get("global.apiTitle"))
     .setDescription(configService.get("global.apiDescription"))
     .setVersion(configService.get("global.apiVersion"))
-    .addServer("https://centinel-api.asadullahalgalib.tech")
+    .addServer(configService.get("global.apiBaseUrl"))
     .addBearerAuth()
     .build();
 

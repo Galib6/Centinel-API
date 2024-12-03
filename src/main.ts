@@ -25,9 +25,9 @@ async function bootstrap() {
   app.setBaseViewsDir(join(process.cwd(), "views"));
   app.setViewEngine("hbs");
 
-  app.enableCors({
-    origin: configService.get("corsAllowedOrigins"),
-  });
+  // app.enableCors({
+  //   origin: configService.get("corsAllowedOrigins"),
+  // });
 
   app.use(urlencoded({ extended: true }));
   app.use(
