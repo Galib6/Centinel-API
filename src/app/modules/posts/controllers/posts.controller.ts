@@ -11,7 +11,6 @@ import {
   Query,
   UseInterceptors,
 } from "@nestjs/common";
-import { ApiBearerAuth } from "@nestjs/swagger";
 import { Auth } from "@src/app/decorators";
 import { AuthType } from "@src/app/enums/auth-type.enum";
 import { SuccessResponse } from "@src/app/types";
@@ -23,8 +22,7 @@ import { PostEntity } from "../entities/post.entity";
 import { PostService } from "../services/posts.service";
 
 @Controller("posts")
-@ApiBearerAuth()
-@Auth(AuthType.None)
+@Auth(AuthType.Bearer)
 @UseInterceptors(CacheInterceptor)
 export class PostsController {
   RELATIONS = ["postTags", "postTags.tag", "metaOption"];

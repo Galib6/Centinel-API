@@ -7,10 +7,15 @@ import { Notification } from "./entities/notifications.entity";
 import { UserNotification } from "./entities/userNotificationTable";
 import { NotificationGateway } from "./services/notification.gateway";
 import { NotificationsService } from "./services/notifications.service";
+import { NotificationSSEGateway } from "./services/notifications.sse.gateway";
 
 const modules = [UserModule, AclModule];
 const entities = [Notification, UserNotification];
-const services = [NotificationsService, NotificationGateway];
+const services = [
+  NotificationsService,
+  NotificationGateway,
+  NotificationSSEGateway,
+];
 // const subscribers = [];
 const controllers = [NotificationsController];
 // const webControllers = [];

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SSE Live Notifications</title>
+  </head>
+  <body>
+    <h1>Real-Time Notifications</h1>
+    <div id="notifications"></div>
+
+    <script>
+      const userId = 123; // Replace with your user ID
+      const token =
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJyb2xlcyI6WyJDb250ZW50IE1hbmFnZXIiXX0sImlhdCI6MTczMzY3NDg1NSwiZXhwIjoxNzMzNzYxMjU1LCJhdWQiOiJsb2NhbGhvc3Q6ODAwMCIsImlzcyI6ImxvY2FsaG9zdDo4MDAwIn0.kRrWsKNcugEQ445psWhrJWCNz44r-_9L9LSpcqYtfww";
+
+      async function createCustomEventSource(url, token) {
+        try {
+          const response = await fetch(url, {
+            method: "GET",
+            headers: {
+              Authorization: token,
+            },
+          });
+
+          if (!response.body) {
+            throw new Error("No body found in the response.");
+          }
+          const reader = response.body.getReader();
+          const decoder = new TextDecoder();
+          let done = false;
+
+          while (!done) {
+            const { value, done: doneReading } = await reader.read();
+            done = doneReading;
+            const chunk = decoder.decode(value, { stream: true });
+
+            // SSE events are separated by '\n\n'
+            const events = chunk.split("\n\n");
+            console.log(events);
+            for (const event of events) {
+              if (event) {
+                try {
+                  const notification = JSON.parse(event ?? {});
+                  console.log("New Notification:", notification);
+
+                  const notificationsDiv =
+                    document.getElementById("notifications");
+                  const notificationElement = document.createElement("div");
+                  notificationElement.textContent = `Notification: ${JSON.stringify(notification)}`;
+                  notificationsDiv.appendChild(notificationElement);
+                } catch (err) {
+                  console.error("Error parsing event:", err);
+                }
+              }
+            }
+          }
+        } catch (error) {
+          console.error("SSE connection error:", error);
+        }
+      }
+
+      // Start the custom event source with token
+      createCustomEventSource(
+        `http://localhost:7000/api/v1/notifications/stream/${userId}`,
+        token
+      );
+    </script>
+  </body>
+</html>

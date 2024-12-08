@@ -19,7 +19,7 @@ import {
   NotificationTargetType,
   NotificationType,
 } from "../enum/enum.notifications";
-import { NotificationGateway } from "./notification.gateway";
+import { NotificationSSEGateway } from "./notifications.sse.gateway";
 
 @Injectable()
 export class NotificationsService extends BaseService<Notification> {
@@ -34,7 +34,8 @@ export class NotificationsService extends BaseService<Notification> {
     private readonly roleService: RoleService,
     private readonly userService: UserService,
     private readonly dataSource: DataSource,
-    private readonly notificationGateway: NotificationGateway
+    // private readonly notificationGateway: NotificationGateway,
+    private readonly notificationSeeGateway: NotificationSSEGateway
   ) {
     super(_repo);
   }
@@ -72,11 +73,11 @@ export class NotificationsService extends BaseService<Notification> {
           },
         },
       });
-      await asyncForEach(userRoles, async (userRole: UserRole) => {
-        await this.notificationGateway.sendUpdatedNotificationToUser(
-          +userRole?.user
-        );
-      });
+      // await asyncForEach(userRoles, async (userRole: UserRole) => {
+      //   await this.notificationGateway.sendUpdatedNotificationToUser(
+      //     +userRole?.user
+      //   );
+      // });
     } catch (err) {
       throw new GatewayTimeoutException();
     }
@@ -104,7 +105,7 @@ export class NotificationsService extends BaseService<Notification> {
         })
       );
 
-      await this.notificationGateway.sendUpdatedNotificationToUser(userId);
+      await this.notificationSeeGateway.sendUpdatedNotificationToUser(userId);
       return res;
     } catch (err) {
       throw new GatewayTimeoutException();
@@ -214,7 +215,7 @@ export class NotificationsService extends BaseService<Notification> {
           }
         });
 
-        await this.notificationGateway.sendUpdatedNotificationToUser(userId);
+        // await this.notificationGateway.sendUpdatedNotificationToUser(userId);
 
         await queryRunner.commitTransaction();
         await queryRunner.release();

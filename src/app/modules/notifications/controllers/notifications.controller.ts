@@ -1,15 +1,22 @@
-import { Controller, Get, Post } from "@nestjs/common";
-import { ApiOperation, ApiTags } from "@nestjs/swagger";
-import { Auth } from "@src/app/decorators";
+import { Controller, Get, Post, Sse } from "@nestjs/common";
+import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
+import { ActiveUser, Auth } from "@src/app/decorators";
+import { IActiveUser } from "@src/app/decorators/active-user.decorator";
 import { AuthType } from "@src/app/enums/auth-type.enum";
+import { Observable } from "rxjs";
 import { NotificationType } from "../enum/enum.notifications";
 import { NotificationsService } from "../services/notifications.service";
+import { NotificationSSEGateway } from "../services/notifications.sse.gateway";
 
-@ApiTags("Notifications")
 @Controller("notifications")
-@Auth(AuthType.None)
+@ApiTags("Notifications")
+@ApiBearerAuth()
+@Auth(AuthType.Bearer)
 export class NotificationsController {
-  constructor(public readonly notificationService: NotificationsService) {}
+  constructor(
+    public readonly notificationService: NotificationsService,
+    public readonly notificationSseGateway: NotificationSSEGateway
+  ) {}
 
   @Get("get-description")
   @ApiOperation({
@@ -37,6 +44,12 @@ export class NotificationsController {
     };
   }
 
+  @Sse("stream/:userId")
+  streamNotifications(@ActiveUser() authUser: IActiveUser): Observable<any> {
+    const userStream = this.notificationSseGateway.createStream(authUser?.id);
+    return userStream.asObservable();
+  }
+
   // @Get()
   // async findAll(
   //   @Query() query: FilterNotificationDto
@@ -54,7 +67,7 @@ export class NotificationsController {
   // }
 
   @Post()
-  async createOne(): Promise<any> {
+  async createOne(@ActiveUser() authUser: IActiveUser): Promise<any> {
     return this.notificationService.createUserBasedNotification(1, {
       message: "fdf",
       notificationType: NotificationType.REMINDER,

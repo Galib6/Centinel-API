@@ -4,7 +4,6 @@ import { APP_FILTER, APP_INTERCEPTOR } from "@nestjs/core";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { ConfigsModule } from "@src/configs/configs.module";
 import { DatabaseModule } from "@src/database/database.module";
-import { RateLimitModule } from "@src/throttler/throtller.module";
 import { join } from "path";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
@@ -12,7 +11,6 @@ import { ExceptionFilter } from "./filters";
 import { GuardsModule } from "./guards/gaurds.module";
 import { HelpersModule } from "./helpers/helpers.module";
 import { ResponseInterceptor } from "./interceptors/response.interceptor";
-import { AuthMiddleware } from "./middlewares";
 import { AuthModule } from "./modules/auth/auth.module";
 import { CategoryModule } from "./modules/categories/categories.module";
 import { CommentsModule } from "./modules/comments/comments.module";
@@ -49,7 +47,7 @@ const MODULES = [
     ...MODULES,
     ConfigsModule,
     GuardsModule,
-    RateLimitModule,
+    // RateLimitModule,
     CacheModule.register({
       isGlobal: true,
       max: 100,
@@ -73,6 +71,6 @@ const MODULES = [
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthMiddleware).forRoutes("*");
+    // consumer.apply(AuthMiddleware).forRoutes("*");
   }
 }
