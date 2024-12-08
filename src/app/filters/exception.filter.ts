@@ -17,6 +17,8 @@ export class ExceptionFilter implements NestExceptionFilter {
     let statusCode: number;
     let errorMessages: string[] = [exception.message];
 
+    console.log(exception);
+
     if (exception instanceof TypeError) {
       errorMessages = errorMessages;
 
@@ -59,7 +61,6 @@ export class ExceptionFilter implements NestExceptionFilter {
     }
 
     const handleErrorMessage = (errorMessages) => {
-      console.log(errorMessages);
       if (
         Array.isArray(errorMessages) &&
         errorMessages?.length &&
